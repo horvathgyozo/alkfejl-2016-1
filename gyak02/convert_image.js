@@ -21,9 +21,9 @@ db.remove({}, {multi: true}, function (err, numRemoved) {
           image.write(`gyak02/converted/${insertedImage._id}.png`, function (err) {
             if (err) throw err;
             console.log(fileName, 'atmeretezve es kiirva')
-          })
-        })
-      })
+          });
+        });
+      });
     });
   });
 });

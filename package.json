@@ -17,7 +17,14 @@
   },
   "homepage": "https://github.com/horvathgyozo/alkfejl-2016-1#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "co": "^4.6.0",
+    "express": "^4.14.0",
+    "indicative": "^2.2.0",
     "jimp": "^0.2.27",
-    "nedb": "^1.8.0"
+    "nedb": "^1.8.0",
+    "nedb-promise": "^2.0.0",
+    "nodemon": "^1.10.2",
+    "nunjucks": "^2.5.2"
   }
 }
