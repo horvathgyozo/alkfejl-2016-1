@@ -3,6 +3,14 @@
 {% block content %}
 <h2>Registration</h2>
 
+{% if errors %}
+<ul>
+    {% for error in errors %}
+        <li>{{ error.message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 <form action="" method="post">
     Username: <input type="text" name="username"> <br>
     Email: <input type="text" name="email"> <br>

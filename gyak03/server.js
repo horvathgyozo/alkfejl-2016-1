@@ -2,6 +2,8 @@ const express = require('express');
 const nunjucks = require('nunjucks');
 const bodyParser = require('body-parser');
 const indicative = require('indicative');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const app = express();
 
@@ -18,6 +20,13 @@ app.use(function (req, res, next) {
   next();
 });
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+  cookie: { maxAge: 60000 },
+  secret: 'secret code',
+  resave: false,
+  saveUninitialized: false,
+}));
+app.use(flash());
 
 // app.use(function (req, res, next) {
 //   console.log(req.alma);
@@ -45,7 +54,13 @@ app.get('/bgcolor', function (req, res) {
 })
 
 app.get('/reg', function (req, res) {
-  res.render('reg.njk')
+  const errors = req.flash('errors');
+  const old_data = req.flash('old_data');
+
+  res.render('reg.njk', {
+    errors,
+    old_data,
+  })
 });
 
 app.post('/reg', function (req, res) {
@@ -58,19 +73,24 @@ app.post('/reg', function (req, res) {
   }
 
   indicative
-    .validate(req.body, rules)
+    .validateAll(req.body, rules)
     .then(function () {
       // validation passed
-      res.end('success')
+      // console.log('success')
+      res.redirect('/hello/siker');
+      res.end();
     })
     .catch(function (errors) {
       // validation failed
-      res.end(errors)
-    })
-
-  res.end();
+      console.log(errors)
+      req.flash('errors', errors);
+      req.flash('old_data', req.body);
+      res.redirect('/reg');
+      res.end();
+    });
 })
 
+// Start the webserver
 const port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log('Server is running!');
